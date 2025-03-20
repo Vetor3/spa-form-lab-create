@@ -157,17 +157,7 @@
 
 <script setup lang="ts">
 import { useUploadStore } from '../stores/UploadStore';
-import { ref, computed } from 'vue';
-
-// const name = ref('');
-// const cpf = ref('');
-// const email = ref('');
-// const phone = ref('');
-// const textPosSponsorship = ref('');
-// const textOtherDescription = ref('');
-
-// const fontNumberType = ref('');
-// const fontNameType = ref('');
+import { computed } from 'vue';
 
 const uploadStore = useUploadStore();
 
@@ -175,21 +165,8 @@ const isValidEmail = computed(() => {
   return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(uploadStore.data.email);
 })
 
-// const storeData = () => {
-//   uploadStore.setData({
-//     name: name.value,
-//     cpf: cpf.value,
-//     email: email.value,
-//     phone: phone.value,
-//     textPosSponsorship: textPosSponsorship.value,
-//     textOtherDescription: textOtherDescription.value,
-//     fontNumberType: fontNumberType.value,
-//     fontNameType: fontNameType.value
-//   })
-// }
-
 // passa a imagem para o store
-const handleFilesBike = () => {
+const handleFilesBike = (event: Event) => {
   const target = event.currentTarget as HTMLInputElement;
   const files = target.files;
   if (files) {
@@ -199,7 +176,7 @@ const handleFilesBike = () => {
   }
 }
 
-const handleFilesKit = () => {
+const handleFilesKit = (event: Event) => {
   const target = event.currentTarget as HTMLInputElement;
   const files = target.files;
   if (files) {
@@ -209,7 +186,7 @@ const handleFilesKit = () => {
   }
 }
 
-const handleFilesSponsorship = () => {
+const handleFilesSponsorship = (event: Event) => {
   const target = event.currentTarget as HTMLInputElement;
   const files = target.files;
   if (files) {
