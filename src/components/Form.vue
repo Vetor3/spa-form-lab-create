@@ -5,14 +5,14 @@
     <div class="box-inner-form container">
       <div >
         <input class="input-form" v-model="uploadStore.data.name" placeholder="Nome" />
-        <input class="input-form" v-model="uploadStore.data.cpf" placeholder="000.000.000-00" v-mask="'###.###.###-##'" />
+        <input class="input-form" v-model="uploadStore.data.cpf" placeholder="000.000.000-00" v-imask="maskCpf" />
       </div>
       <div>
         <input class="input-form" v-model="uploadStore.data.email" placeholder="exemplo@exemplo.com" />
         <span v-if="uploadStore.data.email && !isValidEmail" class="error-input-email">
           Email inválido
         </span>
-        <input class="input-form" v-model="uploadStore.data.phone" placeholder="(00)00000-0000" v-mask="'(##)#####-####'" />
+        <input class="input-form" v-model="uploadStore.data.phone" placeholder="(00)00000-0000" v-imask="maskPhone" />
       </div>
     </div>
     
@@ -73,26 +73,26 @@
     <div>
       <p class="section-title">Fonte - Número | Fonte tipo: {{ uploadStore.data.fontNumberType }}</p>
       <div>
-        <input type="radio" id="type_1" value="1" v-model="uploadStore.data.fontNumberType"/>
-        <label for="type_1">
+        <input type="radio" id="type_num_1" value="1" v-model="uploadStore.data.fontNumberType"/>
+        <label for="type_num_1">
           Fonte 1
         </label>
       </div>
       <div>
-        <input type="radio" id="type_2" value="2" v-model="uploadStore.data.fontNumberType"/>
-        <label for="type_2">
+        <input type="radio" id="type_num_2" value="2" v-model="uploadStore.data.fontNumberType"/>
+        <label for="type_num_2">
           Fonte 2
         </label>
       </div>
       <div>
-        <input type="radio" id="type_3" value="3" v-model="uploadStore.data.fontNumberType"/>
-        <label for="type_3">
+        <input type="radio" id="type_num_3" value="3" v-model="uploadStore.data.fontNumberType"/>
+        <label for="type_num_3">
           Fonte 3
         </label>
       </div>
       <div>
-        <input type="radio" id="type_4" value="4" v-model="uploadStore.data.fontNumberType"/>
-        <label for="type_4">
+        <input type="radio" id="type_num_4" value="4" v-model="uploadStore.data.fontNumberType"/>
+        <label for="type_num_4">
           Fonte 4
         </label>
       </div>
@@ -103,26 +103,26 @@
     <div>
       <p class="section-title">Fonte - Nome | Fonte tipo: {{ uploadStore.data.fontNameType }}</p>
       <div>
-        <input type="radio" id="type_1" value="1" v-model="uploadStore.data.fontNameType"/>
-        <label for="type_1">
+        <input type="radio" id="type_name_1" value="1" v-model="uploadStore.data.fontNameType"/>
+        <label for="type_name_1">
           Fonte 1
         </label>
       </div>
       <div>
-        <input type="radio" id="type_2" value="2" v-model="uploadStore.data.fontNameType"/>
-        <label for="type_2">
+        <input type="radio" id="type_name_2" value="2" v-model="uploadStore.data.fontNameType"/>
+        <label for="type_name_2">
           Fonte 2
         </label>
       </div>
       <div>
-        <input type="radio" id="type_3" value="3" v-model="uploadStore.data.fontNameType"/>
-        <label for="type_3">
+        <input type="radio" id="type_name_3" value="3" v-model="uploadStore.data.fontNameType"/>
+        <label for="type_name_3">
           Fonte 3
         </label>
       </div>
       <div>
-        <input type="radio" id="type_4" value="4" v-model="uploadStore.data.fontNameType"/>
-        <label for="type_4">
+        <input type="radio" id="type_name_4" value="4" v-model="uploadStore.data.fontNameType"/>
+        <label for="type_name_4">
           Fonte 4
         </label>
       </div>
@@ -158,6 +158,15 @@
 <script setup lang="ts">
 import { useUploadStore } from '../stores/UploadStore';
 import { computed } from 'vue';
+// import { IMask } from 'vue-imask';
+
+const maskCpf = {
+  mask: '000.000.000-00',
+}
+
+const maskPhone = {
+  mask: '(00) 0000-0000',
+}
 
 const uploadStore = useUploadStore();
 
