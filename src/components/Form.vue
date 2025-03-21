@@ -73,26 +73,26 @@
     <div>
       <p class="section-title">Fonte - Número | Fonte tipo: {{ uploadStore.data.fontNumberType }}</p>
       <div>
-        <input type="radio" id="type_1" value="1" v-model="uploadStore.data.fontNumberType"/>
-        <label for="type_1">
+        <input type="radio" id="type_num_1" value="1" v-model="uploadStore.data.fontNumberType"/>
+        <label for="type_num_1">
           Fonte 1
         </label>
       </div>
       <div>
-        <input type="radio" id="type_2" value="2" v-model="uploadStore.data.fontNumberType"/>
-        <label for="type_2">
+        <input type="radio" id="type_num_2" value="2" v-model="uploadStore.data.fontNumberType"/>
+        <label for="type_num_2">
           Fonte 2
         </label>
       </div>
       <div>
-        <input type="radio" id="type_3" value="3" v-model="uploadStore.data.fontNumberType"/>
-        <label for="type_3">
+        <input type="radio" id="type_num_3" value="3" v-model="uploadStore.data.fontNumberType"/>
+        <label for="type_num_3">
           Fonte 3
         </label>
       </div>
       <div>
-        <input type="radio" id="type_4" value="4" v-model="uploadStore.data.fontNumberType"/>
-        <label for="type_4">
+        <input type="radio" id="type_num_4" value="4" v-model="uploadStore.data.fontNumberType"/>
+        <label for="type_num_4">
           Fonte 4
         </label>
       </div>
@@ -103,26 +103,26 @@
     <div>
       <p class="section-title">Fonte - Nome | Fonte tipo: {{ uploadStore.data.fontNameType }}</p>
       <div>
-        <input type="radio" id="type_1" value="1" v-model="uploadStore.data.fontNameType"/>
-        <label for="type_1">
+        <input type="radio" id="type_name_1" value="1" v-model="uploadStore.data.fontNameType"/>
+        <label for="type_name_1">
           Fonte 1
         </label>
       </div>
       <div>
-        <input type="radio" id="type_2" value="2" v-model="uploadStore.data.fontNameType"/>
-        <label for="type_2">
+        <input type="radio" id="type_name_2" value="2" v-model="uploadStore.data.fontNameType"/>
+        <label for="type_name_2">
           Fonte 2
         </label>
       </div>
       <div>
-        <input type="radio" id="type_3" value="3" v-model="uploadStore.data.fontNameType"/>
-        <label for="type_3">
+        <input type="radio" id="type_name_3" value="3" v-model="uploadStore.data.fontNameType"/>
+        <label for="type_name_3">
           Fonte 3
         </label>
       </div>
       <div>
-        <input type="radio" id="type_4" value="4" v-model="uploadStore.data.fontNameType"/>
-        <label for="type_4">
+        <input type="radio" id="type_name_4" value="4" v-model="uploadStore.data.fontNameType"/>
+        <label for="type_name_4">
           Fonte 4
         </label>
       </div>
