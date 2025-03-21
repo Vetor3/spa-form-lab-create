@@ -158,7 +158,7 @@
 <script setup lang="ts">
 import { useUploadStore } from '../stores/UploadStore';
 import { computed } from 'vue';
-import { IMask } from 'vue-imask';
+// import { IMask } from 'vue-imask';
 
 const maskCpf = {
   mask: '000.000.000-00',
