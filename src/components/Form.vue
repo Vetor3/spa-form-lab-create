@@ -5,14 +5,14 @@
     <div class="box-inner-form container">
       <div >
         <input class="input-form" v-model="uploadStore.data.name" placeholder="Nome" />
-        <input class="input-form" v-model="uploadStore.data.cpf" placeholder="000.000.000-00" v-mask="'###.###.###-##'" />
+        <input class="input-form" v-model="uploadStore.data.cpf" placeholder="000.000.000-00" v-imask="maskCpf" />
       </div>
       <div>
         <input class="input-form" v-model="uploadStore.data.email" placeholder="exemplo@exemplo.com" />
         <span v-if="uploadStore.data.email && !isValidEmail" class="error-input-email">
           Email inválido
         </span>
-        <input class="input-form" v-model="uploadStore.data.phone" placeholder="(00)00000-0000" v-mask="'(##)#####-####'" />
+        <input class="input-form" v-model="uploadStore.data.phone" placeholder="(00)00000-0000" v-imask="maskPhone" />
       </div>
     </div>
     
@@ -158,6 +158,15 @@
 <script setup lang="ts">
 import { useUploadStore } from '../stores/UploadStore';
 import { computed } from 'vue';
+import { IMask } from 'vue-imask';
+
+const maskCpf = {
+  mask: '000.000.000-00',
+}
+
+const maskPhone = {
+  mask: '(00) 0000-0000',
+}
 
 const uploadStore = useUploadStore();
 
