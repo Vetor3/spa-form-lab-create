@@ -1,381 +1,190 @@
 <template>
   <div class="box-outer-form">
-    <h1>Form</h1>
-
-    <div class="box-inner-form container">
-      <div >
-        <input class="input-form" v-model="uploadStore.data.name" placeholder="Nome" />
-        <input class="input-form" v-model="uploadStore.data.cpf" placeholder="000.000.000-00" v-imask="maskCpf" />
-      </div>
-      <div>
-        <input class="input-form" v-model="uploadStore.data.email" placeholder="exemplo@exemplo.com" />
-        <span v-if="uploadStore.data.email && !isValidEmail" class="error-input-email">
-          Email inválido
-        </span>
-        <input class="input-form" v-model="uploadStore.data.phone" placeholder="(00)00000-0000" v-imask="maskPhone" />
-      </div>
-    </div>
+    <h1 class="main-title">Dados do Pedido</h1>
     
-    <hr />
-    
-    <div>
-      <p class="section-title">Fotos da Moto / Modelo Carenagem:</p>
-      <div>
-        <input ref="file" multiple type="file" accept="image/*" @change="handleFilesBike"/>
-      </div>
-      <div v-if="filesBike.length > 0">
-        <div v-for="(file, index) in filesBike" :key="index" class="image-preview">
-          <img :src="getImagePreviewBike(file)" alt="Preview"/>
-          <button class="remove-button" @click="removeImageBike(index)">Remover</button>
+    <!-- Dados Pessoais -->
+    <div class="form-section">
+      <div class="input-row">
+        <label for="nameField" class="input-label">Nome Completo</label>
+        <div class="input-group">
+          <input 
+            id="nameField"
+            class="input-field"
+            v-model="uploadStore.data.name" 
+            placeholder="Digite seu nome completo"
+          />
         </div>
-        <button class="clear-button" @click="clearImagesBike">Limpar imagens</button>
-      </div>
-      <p v-else>Nenhuma imagem selecionada</p>
-    </div>
-    
-    <hr />
-
-    <div>
-      <p class="section-title">Fotos do Modelo do Kit grafico escolhido:</p>
-      <div>
-        <input ref="file" multiple type="file" accept="image/*" @change="handleFilesKit"/>
-      </div>
-      <div v-if="filesKit.length > 0">
-        <div v-for="(file, index) in filesKit" :key="index" class="image-preview">
-          <img :src="getImagePreviewKit(file)" alt="Preview"/>
-          <button class="remove-button" @click="removeImageKit(index)">Remover</button>
+        
+        <label for="phoneField" class="input-label">Telefone</label>
+        <div class="input-group">
+          <input 
+            id="phoneField"
+            class="input-field"
+            v-model="uploadStore.data.phone" 
+            placeholder="(00)00000-0000" 
+            v-imask="maskPhone"
+          />
         </div>
-        <button class="clear-button" @click="clearImagesKit">Limpar imagens</button>
-      </div>
-      <p v-else>Nenhuma imagem selecionada</p>
-    </div>
-
-    <hr />
-
-    <div>
-      <p class="section-title">Marca / Patrocinios:</p>
-      <div>
-        <input ref="file" multiple type="file" accept="image/*" @change="handleFilesSponsorship"/>
-      </div>
-      <div v-if="filesSponsorship.length > 0">
-        <div v-for="(file, index) in filesSponsorship" :key="index" class="image-preview">
-          <img :src="getImagePreviewSponsorship(file)" alt="Preview"/>
-          <button class="remove-button" @click="removeImageSponsorship(index)">Remover</button>
-        </div>
-        <button class="clear-button" @click="clearImagesSponsorship">Limpar imagens</button>
-      </div>
-      <p v-else>Nenhuma imagem selecionada</p>
-
-    </div>
-
-    <hr />
-
-    <div>
-      <p class="section-title">Fonte - Número | Fonte tipo: {{ uploadStore.data.fontNumberType }}</p>
-      <div>
-        <input type="radio" id="type_num_1" value="1" v-model="uploadStore.data.fontNumberType"/>
-        <label for="type_num_1">
-          Fonte 1
-        </label>
-      </div>
-      <div>
-        <input type="radio" id="type_num_2" value="2" v-model="uploadStore.data.fontNumberType"/>
-        <label for="type_num_2">
-          Fonte 2
-        </label>
-      </div>
-      <div>
-        <input type="radio" id="type_num_3" value="3" v-model="uploadStore.data.fontNumberType"/>
-        <label for="type_num_3">
-          Fonte 3
-        </label>
-      </div>
-      <div>
-        <input type="radio" id="type_num_4" value="4" v-model="uploadStore.data.fontNumberType"/>
-        <label for="type_num_4">
-          Fonte 4
-        </label>
       </div>
     </div>
 
-    <hr />
-
-    <div>
-      <p class="section-title">Fonte - Nome | Fonte tipo: {{ uploadStore.data.fontNameType }}</p>
-      <div>
-        <input type="radio" id="type_name_1" value="1" v-model="uploadStore.data.fontNameType"/>
-        <label for="type_name_1">
-          Fonte 1
-        </label>
-      </div>
-      <div>
-        <input type="radio" id="type_name_2" value="2" v-model="uploadStore.data.fontNameType"/>
-        <label for="type_name_2">
-          Fonte 2
-        </label>
-      </div>
-      <div>
-        <input type="radio" id="type_name_3" value="3" v-model="uploadStore.data.fontNameType"/>
-        <label for="type_name_3">
-          Fonte 3
-        </label>
-      </div>
-      <div>
-        <input type="radio" id="type_name_4" value="4" v-model="uploadStore.data.fontNameType"/>
-        <label for="type_name_4">
-          Fonte 4
-        </label>
-      </div>
+    <!-- Upload de Imagens -->
+    <div class="upload-section">
+      <ImageUpload type="bike" title="Bike" />
+      <ImageUpload type="sponsorship" title="Patrocínio" />
+      <ImageUpload type="kit" title="Kit gráfico" />
     </div>
 
-    <hr />
-
-    <div>
-      <p class="section-title">Informe a posição de cada patrocinio:</p>
-      <textarea class="textarea-form" v-model="uploadStore.data.textSponsorship" placeholder="Informações adicionais"></textarea>
+    <!-- Seleção de Fontes -->
+    <div class="font-section">
+      <FontSelect type="name" title="Nome" />
+      <FontSelect type="number" title="Número" />
     </div>
 
-    <hr />
-
-    <div>
+    <!-- Textareas -->
+    <div class="textarea-section">
+      <p class="section-title">Informe a posição de cada patrocínio:</p>
+      <textarea 
+        class="text-field"
+        v-model="uploadStore.data.textSponsorship" 
+        placeholder="Informações adicionais"
+      ></textarea>
+      
       <p class="section-title">Adicione observações e alterações desejadas no modelo do gráfico:</p>
-      <label>
-        <textarea class="textarea-form" v-model="uploadStore.data.textDescription" placeholder="Observações"></textarea>
-      </label>
+      <textarea 
+        class="text-field"
+        v-model="uploadStore.data.textDescription" 
+        placeholder="Observações"
+      ></textarea>
     </div>
 
-    <hr />
-
-    <button type="submit" class="submit-button" :disabled="uploadStore.isLoading" @click="uploadStore.uploadData">
-      {{ uploadStore.isLoading ? 'Enviando...' : 'Enviar' }}
-    </button>  
-    
-    <hr />
-    {{ uploadStore.response }}
+    <!-- Botão de Envio -->
+    <button 
+      class="submit-btn"
+      :class="{ 'loading': uploadStore.isLoading }"
+      :disabled="uploadStore.isLoading"
+      @click="uploadStore.uploadData"
+    >
+      {{ uploadStore.isLoading ? 'Enviando...' : 'Enviar Pedido' }}
+    </button>
   </div>
 </template>
 
 <script setup lang="ts">
 import { useUploadStore } from '../stores/UploadStore';
-import { computed } from 'vue';
-// import { IMask } from 'vue-imask';
-
-const maskCpf = {
-  mask: '000.000.000-00',
-}
+import ImageUpload from './form/SelectImages.vue';
+import FontSelect from './form/FontSelect.vue';
 
 const maskPhone = {
-  mask: '(00) 0000-0000',
-}
+  mask: '(00)00000-0000',
+};
 
 const uploadStore = useUploadStore();
-
-const isValidEmail = computed(() => {
-  return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(uploadStore.data.email);
-})
-
-// passa a imagem para o store
-const handleFilesBike = (event: Event) => {
-  const target = event.currentTarget as HTMLInputElement;
-  const files = target.files;
-  if (files) {
-    for (let i = 0; i < files.length; i++) {
-      uploadStore.addBikePhoto(files[i]);
-    }
-  }
-}
-
-const handleFilesKit = (event: Event) => {
-  const target = event.currentTarget as HTMLInputElement;
-  const files = target.files;
-  if (files) {
-    for (let i = 0; i < files.length; i++) {
-      uploadStore.addKitPhoto(files[i]);
-    }
-  }
-}
-
-const handleFilesSponsorship = (event: Event) => {
-  const target = event.currentTarget as HTMLInputElement;
-  const files = target.files;
-  if (files) {
-    for (let i = 0; i < files.length; i++) {
-      uploadStore.addSponsorshipPhoto(files[i]);
-    }
-  }
-}
-
-// cria url da imagem para preview
-const getImagePreviewBike = (file: File) => {
-  return URL.createObjectURL(file);
-}
-
-const getImagePreviewKit = (file: File) => {
-  return URL.createObjectURL(file);
-}
-
-const getImagePreviewSponsorship = (file: File) => {
-  return URL.createObjectURL(file);
-}
-
-const removeImageBike = (index: number) => {
-  uploadStore.removeBikePhoto(index);
-}
-
-const clearImagesBike = () => {
-  uploadStore.clearBikePhotos();
-}
-
-const removeImageKit = (index: number) => {
-  uploadStore.removeKitPhoto(index);
-}
-
-const clearImagesKit = () => {
-  uploadStore.clearKitPhotos();
-}
-
-const removeImageSponsorship = (index: number) => {
-  uploadStore.removeSponsorshipPhoto(index);
-}
-
-const clearImagesSponsorship = () => {
-  uploadStore.clearSponsorshipPhotos();
-}
-
-const filesBike = computed(() => uploadStore.bikePhotos);
-const filesKit = computed(() => uploadStore.kitPhotos);
-const filesSponsorship = computed(() => uploadStore.sponsorshipPhotos);
-
 </script>
 
-<style lang="css">
+<style scoped>
+.box-outer-form {
+  max-width: 800px;
+  margin: 20px auto;
+  padding: 20px;
+  background: #fff;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+}
 
-.textarea-form {
-  width: 80%;
-  height: 100px;
-  padding: 10px;
-  border: 1px solid #ccc;
-  border-radius: 5px;
-  resize: none;
-  background-color: #ffffff;
-  color: #1f1f1f;
+.main-title {
+  text-align: center;
+  color: #333;
+  margin-bottom: 25px;
+  font-size: 1.8rem;
+}
+
+.input-row {
+  display: flex;
+  gap: 15px;
+  margin-bottom: 25px;
+}
+
+.input-field {
+  flex: 1;
+  padding: 12px 15px;
+  border: 1px solid #ddd;
+  border-radius: 6px;
+  font-size: 1rem;
+  background: #fff;
+  color: #1a1a1a;
+  transition: border-color 0.3s;
+}
+
+.input-field:focus {
+  outline: none;
+  border-color: #4a90e2;
+}
+
+.upload-section,
+.font-section,
+.textarea-section {
+  margin-bottom: 30px;
+  padding: 20px;
+  background: #f9f9f9;
+  border-radius: 8px;
 }
 
 .section-title {
-  font-weight: bold;
-  font-size: 0.85rem;
-}
-
-.image-preview {
-  margin-bottom: 20px;
-  border: 1px solid #ccc;
-  padding: 10px;
-  border-radius: 5px;
-  display: inline-block;
-  margin-right: 10px;
-}
-
-img {
-  max-width: 100px;
-  max-height: 100px;
-  display: block;
+  font-weight: 600;
+  color: #444;
   margin-bottom: 10px;
+  font-size: 0.95rem;
 }
 
-button {
-  padding: 0.75rem;
-  border: none;
-  font-size: 1rem;
-  border-radius: 5px;
-  cursor: pointer;
-}
-
-.upload-button {
-  background-color: #0d141b;
-  color: white;
-}
-.upload-button:hover {
-  background-color: #000000;
-}
-
-.submit-button {
+.text-field {
   width: 100%;
-  background-color: #007bff;
-  color: white;
+  min-height: 100px;
+  padding: 12px;
+  margin-bottom: 20px;
+  border: 1px solid #ddd;
+  border-radius: 6px;
   font-size: 1rem;
-}
-.submit-button:hover {
-  background-color: #0056b3;
+  resize: vertical;
+  background: #fff;
 }
 
-.remove-button {
-  background-color: #dc3545;
+.submit-btn {
+  width: 100%;
+  padding: 14px;
+  background-color: #2c7be5;
   color: white;
-}
-.remove-button:hover {
-  background-color: #c82333;
-}
-
-.clear-button {
-  background-color: #007bff;
-  color: white;
-}
-.clear-button:hover {
-  background-color: #0056b3;
+  border: none;
+  border-radius: 6px;
+  font-size: 1.1rem;
+  cursor: pointer;
+  transition: background-color 0.3s;
 }
 
-.error-input-email{
-  color: red;
-  font-weight: bold;
-  font-size: 0.6rem;
-  margin: 0.5rem;
-  padding: 0.8rem;
+.submit-btn:hover:not(.loading) {
+  background-color: #1a68d1;
 }
 
-.box-outer-form {
-  margin: 1rem;
-  padding: 1rem;
-  border: black solid 1px;
-  width: auto;
-  height: auto;
+.submit-btn.loading {
+  background-color: #6c757d;
+  cursor: not-allowed;
 }
 
-.box-inner-form {
-  flex: auto;
-}
-
-.input-form {
-  margin: 0.5rem;
-  padding: 0.8rem;
-  color: #1f1f1f;
-  background-color: #ffffff;
-  border: 1px solid #1f1f1f;
-  border-radius: 5px;
-  font-size: 0.8rem;
-  width: 90%;
-}
-
-.container {
-  display: flex;
-  flex-direction: line;
-  justify-content: center;
-  align-items: center;
-  max-width: auto;
-}
-
-@media (max-width: 480px) {
-  .box-inner-form {
+@media (max-width: 768px) {
+  .input-row {
     flex-direction: column;
-    align-items: center;
+    gap: 10px;
   }
-
-  .input-form {
-    flex: 1 1 100%;
+  
+  .box-outer-form {
+    padding: 15px;
+    margin: 10px;
   }
-
-  .input-file {
-    flex: 2 2 100%;
+  
+  .upload-section,
+  .font-section,
+  .textarea-section {
+    padding: 15px;
   }
 }
-
 </style>

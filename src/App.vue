@@ -16,8 +16,8 @@ import Form from './components/Form.vue'
 .box-viewer {
   display: flex;
   flex-direction: column;
-  align-items: center;
-  border: black solid 1px;
+  /* align-items: center; */
+  /* border: black solid 1px; */
   margin: 1rem;
   padding: 1rem;
 }

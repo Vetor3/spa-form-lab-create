@@ -1,45 +1,96 @@
-import { defineStore } from 'pinia'
+import { defineStore } from 'pinia';
+import environment from '../config/env';
 
-export const useUploadStore = defineStore('upload',{
+type FileCategory = 'bike' | 'kit' | 'sponsorship';
+type FormData = {
+  name: string;
+  phone: string;
+  textSponsorship: string;
+  textDescription: string;
+  fontNumberType: string;
+  fontNameType: string;
+};
+
+export const useUploadStore = defineStore('upload', {
   state: () => ({
-    bikePhotos: Array<File>(),
-    kitPhotos: Array<File>(),
-    sponsorshipPhotos: Array<File>(),
+    bikePhotos: [] as File[],
+    kitPhotos: [] as File[],
+    sponsorshipPhotos: [] as File[],
     
     data: {
       name: '',
-      cpf: '',
-      email: '',
       phone: '',
       textSponsorship: '',
       textDescription: '',
       fontNumberType: '',
       fontNameType: '',
-    },
-    
-    name: '',
-    cpf: '',
-    email: '',
-    phone: '',
-    textSponsorship: '',
-    textDescription: '',
+    } as FormData,
 
     isLoading: false,
     response: null as any
   }),
 
   actions: {
-
-    updateDataField(field: keyof typeof this.data, value: string) {
-      this.data[field] = value
+    // Métodos genéricos para manipulação de arquivos
+    addFiles(category: FileCategory, files: File[]) {
+      const property = `${category}Photos` as 'bikePhotos' | 'kitPhotos' | 'sponsorshipPhotos';
+      this[property] = [...this[property], ...files];
     },
 
-    setName(name: string) {
-      this.name = name
+    removeFile(category: FileCategory, index: number) {
+      const property = `${category}Photos` as 'bikePhotos' | 'kitPhotos' | 'sponsorshipPhotos';
+      this[property].splice(index, 1);
     },
 
-    setData(data: any) {
-      this.data = data
+    clearFiles(category: FileCategory) {
+      const property = `${category}Photos` as 'bikePhotos' | 'kitPhotos' | 'sponsorshipPhotos';
+      this[property] = [];
+    },
+
+    // Métodos específicos mantidos para compatibilidade (opcional)
+    setFilesKit(files: File[]) {
+      this.addFiles('kit', files);
+    },
+    
+    setFilesBike(files: File[]) {
+      this.addFiles('bike', files);
+    },
+    
+    setFilesSponsorship(files: File[]) {
+      this.addFiles('sponsorship', files);
+    },
+    
+    removeFileKit(index: number) {
+      this.removeFile('kit', index);
+    },
+    
+    removeFileBike(index: number) {
+      this.removeFile('bike', index);
+    },
+    
+    removeFileSponsorship(index: number) {
+      this.removeFile('sponsorship', index);
+    },
+    
+    clearFilesKit() {
+      this.clearFiles('kit');
+    },
+    
+    clearFilesBike() {
+      this.clearFiles('bike');
+    },
+    
+    clearFilesSponsorship() {
+      this.clearFiles('sponsorship');
+    },
+
+    // Métodos existentes
+    updateDataField(field: keyof FormData, value: string) {
+      this.data[field] = value;
+    },
+
+    setData(data: FormData) {
+      this.data = data;
     },
 
     async uploadData() {
@@ -47,102 +98,50 @@ export const useUploadStore = defineStore('upload',{
 
       Object.entries(this.data).forEach(([key, value]) => {
         formData.append(key, value);
-      })
-
-      this.bikePhotos.forEach((photo, index) => {
-        formData.append(`bikePhotos[${index}]`, photo);
       });
 
-      this.kitPhotos.forEach((photo, index) => {        
-        formData.append(`kitPhotos[${index}]`, photo);
-      });
+      const appendPhotos = (category: FileCategory) => {
+        const photos = this[`${category}Photos` as 'bikePhotos' | 'kitPhotos' | 'sponsorshipPhotos'];
+        if (photos.length) {
+          photos.forEach((photo, index) => {
+            formData.append(`${category}Photos[${index}]`, photo);
+          });
+        }
+      };
 
-      this.sponsorshipPhotos.forEach((photo, index) => {        
-        formData.append(`sponsorshipPhotos[${index}]`, photo);
-      });
+      appendPhotos('bike');
+      appendPhotos('kit');
+      appendPhotos('sponsorship');
 
-      this.isLoading = true
-      console.log(formData)
+      this.isLoading = true;
+      console.log(JSON.stringify(formData));
+      
       try {
-        const response = await fetch('http://localhost:4567/v1/process_form', {
-          headers: {
-            'Content-Type': 'multipart/form-data'
-          },
+        const response = await fetch(`${environment.apiBaseURL}/v1/upload`, {
           method: 'POST',
           body: formData
-        })
-        this.response = await response.json()
-        console.log(this.response)
+        });
+        this.response = await response.json();
+        console.log(this.response);
       } catch (error) {
-        console.error(error)
+        console.error(error);
       } finally {
-        this.isLoading = false
+        this.isLoading = false;
       }
-    },
-
-    addBikePhoto(photo: File) {
-      console.log(this.bikePhotos.length)
-      if (this.bikePhotos.length >= 10) {
-        this.bikePhotos.pop();
-      }
-      this.bikePhotos.push(photo)
-    },
-    
-    addKitPhoto(photo: File) {
-        if (this.kitPhotos.length >= 2) {
-          this.kitPhotos.pop();
-        }
-        this.kitPhotos.push(photo)
-    },
-    
-    addSponsorshipPhoto(photo: File) {
-        if (this.sponsorshipPhotos.length >= 10) {
-          this.sponsorshipPhotos.pop();
-        }
-        this.sponsorshipPhotos.push(photo)
-    },
-
-    removeBikePhoto(index: number) {
-      this.bikePhotos.splice(index, 1)
-    },
-
-    clearBikePhotos() {
-      this.bikePhotos = []
-    },
-
-    removeKitPhoto(index: number) {
-      this.kitPhotos.splice(index, 1)
-    },
-
-    clearKitPhotos() {
-      this.kitPhotos = []
-    },
-
-    removeSponsorshipPhoto(index: number) {
-      this.sponsorshipPhotos.splice(index, 1)
-    },
-
-    clearSponsorshipPhotos() {
-      this.sponsorshipPhotos = []
     }
   },
 
   getters: {
-    showName(): string {
-      return this.name
+    showBikePhotos(): File[] {
+      return this.bikePhotos;
     },
 
-    showBikePhotos(): Array<File> {
-      return this.bikePhotos
+    showKitPhotos(): File[] {
+      return this.kitPhotos;
     },
 
-    showKitPhotos(): Array<File> {
-      return this.kitPhotos
+    showSponsorshipPhotos(): File[] {
+      return this.sponsorshipPhotos;
     },
-
-    showSponsorshipPhotos(): Array<File> {
-      return this.sponsorshipPhotos
-    },
-
   }
-})
+});
