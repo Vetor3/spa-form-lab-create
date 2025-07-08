@@ -1,8 +1,8 @@
 <template>
     <nav class="navbar">
-      <div class="logo">
+      <!-- <div class="logo">
         <img src="/v3.svg" alt="Vite logo" />
-      </div>
+      </div> -->
       <section class="title">
           Vetor3 Lab Create
       </section>
