@@ -1,5 +1,6 @@
 import { defineStore } from 'pinia';
 import environment from '../config/env';
+import cep from 'cep-promise';
 
 type FileCategory = 'bike' | 'kit' | 'sponsorship';
 type FormData = {
@@ -9,6 +10,13 @@ type FormData = {
   textDescription: string;
   fontNumberType: string;
   fontNameType: string;
+
+  cep: string;
+  street: string;
+  number: string;
+  neighborhood: string;
+  city: string;
+  state: string;
 };
 
 export const useUploadStore = defineStore('upload', {
@@ -24,6 +32,14 @@ export const useUploadStore = defineStore('upload', {
       textDescription: '',
       fontNumberType: '',
       fontNameType: '',
+
+      cep: '',
+      street: '',
+      number: '',
+      neighborhood: '',
+      city: '',
+      complement: '',
+      state: ''
     } as FormData,
 
     isLoading: false,
@@ -127,6 +143,18 @@ export const useUploadStore = defineStore('upload', {
         console.error(error);
       } finally {
         this.isLoading = false;
+      }
+    },
+
+    async cepFetch(userCep: string) {
+      try {
+        const result = await cep(userCep);
+        this.data.street = result.street;
+        this.data.neighborhood = result.neighborhood;
+        this.data.city = result.city;
+        this.data.state = result.state;
+      } catch (error) {
+        console.error(error);
       }
     }
   },

@@ -11,6 +11,7 @@
     "build:prod": "vue-tsc -b && vite build --mode production"
   },
   "dependencies": {
+    "cep-promise": "^4.4.1",
     "pinia": "^3.0.1",
     "vue": "^3.5.13",
     "vue-imask": "^7.6.1",
