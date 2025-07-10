@@ -17,6 +17,7 @@ type FormData = {
   neighborhood: string;
   city: string;
   state: string;
+  complement: string;
 };
 
 export const useUploadStore = defineStore('upload', {
