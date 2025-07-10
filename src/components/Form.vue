@@ -3,28 +3,71 @@
     <h1 class="main-title">Dados do Pedido</h1>
     
     <!-- Dados Pessoais -->
-    <div class="form-section">
+    <div class="personal-data-section">
       <div class="input-row">
-        <label for="nameField" class="input-label">Nome Completo</label>
-        <div class="input-group">
-          <input 
-            id="nameField"
-            class="input-field"
-            v-model="uploadStore.data.name" 
-            placeholder="Digite seu nome completo"
-          />
-        </div>
-        
-        <label for="phoneField" class="input-label">Telefone</label>
-        <div class="input-group">
-          <input 
-            id="phoneField"
-            class="input-field"
-            v-model="uploadStore.data.phone" 
-            placeholder="(00)00000-0000" 
-            v-imask="maskPhone"
-          />
-        </div>
+        <input 
+          id="nameField"
+          class="input-field"
+          v-model="uploadStore.data.name" 
+          placeholder="Digite seu nome completo"
+        />
+        <input 
+          id="phoneField"
+          class="input-field"
+          v-model="uploadStore.data.phone" 
+          placeholder="(00)00000-0000" 
+          v-imask="maskPhone"
+        />
+        <input
+        v-model="uploadStore.data.cep"
+        type="text"
+        placeholder="CEP"
+        v-imask="maskCep"
+        @blur="uploadStore.cepFetch(uploadStore.data.cep)"
+        class="input-field"
+        />
+      </div>
+    </div>
+    <div class="personal-data-section">
+      <div class="input-row"> 
+        <input
+          v-model="uploadStore.data.street"
+          type="text"
+          placeholder="Rua"
+          class="input-field"
+        />
+        <input
+          v-model="uploadStore.data.neighborhood"
+          type="text"
+          placeholder="Bairro"
+          class="input-field"
+        />
+        <input
+          v-model="uploadStore.data.city"
+          type="text"
+          placeholder="Cidade"
+          class="input-field"
+        />
+      </div>
+      <div class="input-row">
+        <input
+          v-model="uploadStore.data.state"
+          type="text"
+          placeholder="Estado"
+          class="input-field"
+        />
+        <input
+          v-model="uploadStore.data.number"
+          type="text"
+          placeholder="Número"
+          class="input-field"
+        />
+        <input
+          v-model="uploadStore.data.complement"
+          type="text"
+          placeholder="Complemento"
+          class="input-field"
+        />
       </div>
     </div>
 
@@ -79,10 +122,22 @@ const maskPhone = {
   mask: '(00)00000-0000',
 };
 
+const maskCep = {
+  mask: '00000-000',
+};
+
 const uploadStore = useUploadStore();
 </script>
 
 <style scoped>
+
+.personal-data-section {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  margin-bottom: 25px;
+}
+
 .box-outer-form {
   max-width: 800px;
   margin: 20px auto;
