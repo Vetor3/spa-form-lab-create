@@ -6,7 +6,7 @@ const env = import.meta.env.MODE || 'development';
 
 const environments: Record<string, Environment> = {
   development: { apiBaseURL: 'http://localhost:4567' },
-  production: { apiBaseURL: 'https://vt3-api-process-form.onrender.com/v1' },
+  production: { apiBaseURL: 'https://api.vt3backoffice.com' },
   test: { apiBaseURL: 'http://localhost:4567' }
 };
 
