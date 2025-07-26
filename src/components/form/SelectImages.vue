@@ -1,6 +1,6 @@
 <template>
   <div class="image-uploader-container">
-    <p class="section-title">Fotos do Modelo do {{ title }} escolhido:</p>
+    <p class="section-title">{{ title }}</p>
     
     <div class="file-input-container">
       <input
@@ -56,9 +56,9 @@ export default defineComponent({
     // Configurações específicas por tipo
     const typeConfig = computed(() => {
       const config = {
-        bike: { title: 'Bike', maxFiles: 10 },
-        kit: { title: 'Kit Gráfico', maxFiles: 2 },
-        sponsorship: { title: 'Patrocínio', maxFiles: 10 }
+        bike: { title: 'Fotos da sua Moto:', maxFiles: 10 },
+        kit: { title: 'Fotos do Kit Gráfico escolhido:', maxFiles: 2 },
+        sponsorship: { title: 'Suas marcas de patrocínio:', maxFiles: 10 }
       };
       return config[props.type];
     });
