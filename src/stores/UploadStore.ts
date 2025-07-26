@@ -44,7 +44,10 @@ export const useUploadStore = defineStore('upload', {
     } as FormData,
 
     isLoading: false,
-    response: null as any
+    response: null as any,
+
+    snackbarMessage: '',
+    snackbarVisible: false
   }),
 
   actions: {
@@ -139,6 +142,12 @@ export const useUploadStore = defineStore('upload', {
           body: formData
         });
         this.response = await response.json();
+
+        if (response.ok) {
+          this.snackbarMessage = this.response?.message;
+          this.snackbarVisible = true;
+        }
+
         console.log(this.response);
       } catch (error) {
         console.error(error);
