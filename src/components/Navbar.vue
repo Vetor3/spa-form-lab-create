@@ -1,11 +1,11 @@
 <template>
     <nav class="navbar">
-      <!-- <div class="logo">
-        <img src="/v3.svg" alt="Vite logo" />
-      </div> -->
-      <section class="title">
+      <div class="logo">
+        <img src="/navbar_logo.png" alt="Vite logo" />
+      </div>
+      <!-- <section class="title">
           Vetor3 Lab Create
-      </section>
+      </section> -->
     </nav>
 </template>
 
@@ -13,6 +13,13 @@
 </script>
 
 <style>
+
+.logo img {
+  height: 40px;
+  width: auto;
+  object-fit: contain;
+}
+
 .navbar {
   flex: 1;
   display: flex;
