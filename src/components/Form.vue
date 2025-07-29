@@ -105,7 +105,7 @@
         <button 
         class="submit-btn"
         :class="{ 'loading': uploadStore.isLoading }"
-        :disabled="uploadStore.isLoading"
+        :disabled="uploadStore.isLoading || !uploadStore.data.name || !uploadStore.data.phone"
         @click="uploadStore.uploadData"
         >
         {{ uploadStore.isLoading ? 'Enviando...' : 'Enviar Pedido' }}
@@ -276,6 +276,12 @@ const maskPhone = {
 .submit-btn.loading {
   background-color: #6c757d;
   cursor: not-allowed;
+}
+
+.submit-btn:disabled {
+  background-color: #6c757d; /* cinza */
+  cursor: not-allowed;
+  opacity: 0.7;
 }
 
 @media (max-width: 768px) {
