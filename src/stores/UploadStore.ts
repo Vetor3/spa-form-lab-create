@@ -44,11 +44,25 @@ export const useUploadStore = defineStore('upload', {
     } as FormData,
 
     isLoading: false,
-    response: null as any
+    response: null as any,
+
+    snackbarMessage: '',
+    snackbarVisible: false
   }),
 
   actions: {
-    // Métodos genéricos para manipulação de arquivos
+    clearDataForm() {
+      this.bikePhotos = [];
+      this.kitPhotos = [];
+      this.sponsorshipPhotos = [];
+      this.data.name = '';
+      this.data.phone = '';
+      this.data.textSponsorship = '';
+      this.data.textDescription = '';
+      this.data.fontNumberType = '';
+      this.data.fontNameType = '';
+    },
+
     addFiles(category: FileCategory, files: File[]) {
       const property = `${category}Photos` as 'bikePhotos' | 'kitPhotos' | 'sponsorshipPhotos';
       this[property] = [...this[property], ...files];
@@ -139,11 +153,21 @@ export const useUploadStore = defineStore('upload', {
           body: formData
         });
         this.response = await response.json();
+
+        if (response.ok) {
+          this.snackbarMessage = this.response?.message;
+          this.snackbarVisible = true;
+        }
+
         console.log(this.response);
       } catch (error) {
         console.error(error);
       } finally {
         this.isLoading = false;
+        this.clearDataForm();
+        this.clearFiles('bike');
+        this.clearFiles('kit');
+        this.clearFiles('sponsorship');
       }
     },
 

@@ -1,6 +1,6 @@
 <template>
   <div class="font-selector-container">
-    <h3 class="section-title">Fonte - {{ title }} | Fonte tipo: {{ currentValue }}</h3>
+    <h3 class="section-title">Fonte - {{ title }} | {{ currentValue }}</h3>
     
     <div class="font-options-vertical">
       <label 
