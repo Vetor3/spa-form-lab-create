@@ -2,110 +2,108 @@
   <form @submit.prevent="handleSubmit">
     <div class="box-outer-form">
       <h1 class="main-title">Dados do Pedido</h1>
-      <!-- Dados Pessoais -->
       <div class="personal-data-section">
         <div class="input-row">
           <input 
           id="nameField"
           class="input-field"
-          v-model="uploadStore.data.name" 
+          v-model="uploadStore.data.name"
+          @input="uploadStore.newName(uploadStore.data.name)"
           placeholder="Digite seu nome completo"
           />
+
           <input 
           id="phoneField"
           class="input-field"
-          v-model="uploadStore.data.phone" 
-          placeholder="(00)00000-0000" 
-          v-imask="maskPhone"
+          v-model="uploadStore.data.phone"
+          placeholder="Telefone"
+          v-maska="'(##) #####-####'"
           />
-          <!-- <input
+
+          <input
           v-model="uploadStore.data.cep"
           type="text"
           placeholder="CEP"
-          v-imask="maskCep"
+          v-maska="'#####-###'"
           @blur="uploadStore.cepFetch(uploadStore.data.cep)"
           class="input-field"
-          /> -->
+          />
         </div>
+      </div>
+      <div class="personal-data-section">
+        <div class="input-row"> 
+          <input
+          v-model="uploadStore.data.street"
+          type="text"
+          placeholder="Rua"
+          class="input-field"
+          />
+          <input
+          v-model="uploadStore.data.neighborhood"
+          type="text"
+          placeholder="Bairro"
+          class="input-field"
+          />
+          <input
+          v-model="uploadStore.data.city"
+          type="text"
+          placeholder="Cidade"
+          class="input-field"
+          />
         </div>
-        <!-- <div class="personal-data-section">
-          <div class="input-row"> 
-            <input
-            v-model="uploadStore.data.street"
-            type="text"
-            placeholder="Rua"
-            class="input-field"
-            />
-            <input
-            v-model="uploadStore.data.neighborhood"
-            type="text"
-            placeholder="Bairro"
-            class="input-field"
-            />
-            <input
-            v-model="uploadStore.data.city"
-            type="text"
-            placeholder="Cidade"
-            class="input-field"
-            />
-          </div>
-          <div class="input-row">
-            <input
-            v-model="uploadStore.data.state"
-            type="text"
-            placeholder="Estado"
-            class="input-field"
-            />
-            <input
-            v-model="uploadStore.data.number"
-            type="text"
-            placeholder="Número"
-            class="input-field"
-            />
-            <input
-            v-model="uploadStore.data.complement"
-            type="text"
-            placeholder="Complemento"
-            class="input-field"
-            />
-          </div>
-        </div> -->
+        <div class="input-row">
+          <input
+          v-model="uploadStore.data.state"
+          type="text"
+          placeholder="Estado"
+          class="input-field"
+          />
+          <input
+          v-model="uploadStore.data.number"
+          type="text"
+          placeholder="Número"
+          class="input-field"
+          />
+          <input
+          v-model="uploadStore.data.complement"
+          type="text"
+          placeholder="Complemento"
+          class="input-field"
+          />
+        </div>
+      </div>
         
-        <!-- Upload de Imagens -->
-        <div class="upload-section">
-          <ImageUpload type="bike" title="Fotos da sua Moto:" />
-          <ImageUpload type="kit" title="Fotos do Kit Gráfico escolhido:" />
-          <ImageUpload type="sponsorship" title="Suas marcas de patrocínio:" />
-        </div>
+      <div class="upload-section">
+        <ImageUpload type="bike" title="Fotos da sua Moto:" />
+        <ImageUpload type="kit" title="Fotos do Kit Gráfico escolhido:" />
+        <ImageUpload type="sponsorship" title="Suas marcas de patrocínio:" />
+      </div>
+      
+      <div class="font-section">
+        <FontSelect type="name" title="Nome" />
+        <FontSelect type="number" title="Número" />
+      </div>
+      
+      <div class="textarea-section">
+        <p class="section-title">Informe a posição de cada patrocínio:</p>
+        <textarea 
+        class="text-field"
+        v-model="uploadStore.data.textSponsorship" 
+        placeholder="Informações adicionais"
+        ></textarea>
         
-        <!-- Seleção de Fontes -->
-        <div class="font-section">
-          <FontSelect type="name" title="Nome" />
-          <FontSelect type="number" title="Número" />
-        </div>
+        <p class="section-title">Adicione observações e alterações desejadas no modelo do gráfico:</p>
+        <textarea 
+        class="text-field"
+        v-model="uploadStore.data.textDescription" 
+        placeholder="Observações"
+        ></textarea>
+      </div>
         
-        <!-- Textareas -->
-        <div class="textarea-section">
-          <p class="section-title">Informe a posição de cada patrocínio:</p>
-          <textarea 
-          class="text-field"
-          v-model="uploadStore.data.textSponsorship" 
-          placeholder="Informações adicionais"
-          ></textarea>
-          
-          <p class="section-title">Adicione observações e alterações desejadas no modelo do gráfico:</p>
-          <textarea 
-          class="text-field"
-          v-model="uploadStore.data.textDescription" 
-          placeholder="Observações"
-          ></textarea>
-        </div>
-        
-        <!-- Botão de Envio -->
-        <button 
+      <button 
         class="submit-btn"
         :class="{ 'loading': uploadStore.isLoading }"
-        :disabled="uploadStore.isLoading || !uploadStore.data.name || !uploadStore.data.phone"
+        :disabled="uploadStore.isLoading || !uploadStore.data.name || !uploadStore.data.phone || !uploadStore.data.cep || !uploadStore.data.street || !uploadStore.data.neighborhood || !uploadStore.data.city || !uploadStore.data.state || !uploadStore.data.number"
         @click="uploadStore.uploadData"
         >
         {{ uploadStore.isLoading ? 'Enviando...' : 'Enviar Pedido' }}
@@ -127,6 +125,8 @@ import FontSelect from './form/FontSelect.vue';
 
 import { ref, watch } from 'vue';
 
+import { vMaska } from 'maska/vue';
+
 const uploadStore = useUploadStore();
 const snackbarVisible = ref(false);
 const snackbarMessage = ref('');
@@ -145,14 +145,6 @@ watch(
 const handleSubmit = async () => {
   await uploadStore.uploadData();
 }
-
-const maskPhone = {
-  mask: '(00) 00000-0000',
-};
-
-// const maskCep = {
-//   mask: '00000-000',
-// };
 
 </script>
 

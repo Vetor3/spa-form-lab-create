@@ -51,6 +51,14 @@ export const useUploadStore = defineStore('upload', {
   }),
 
   actions: {
+    newName(name: string) {
+      this.data.name = name.replace(/^\s+/g, '');
+    },
+
+    newPhone(phone: string) {
+      this.data.phone = phone;
+    },
+
     clearDataForm() {
       this.bikePhotos = [];
       this.kitPhotos = [];
@@ -185,6 +193,10 @@ export const useUploadStore = defineStore('upload', {
   },
 
   getters: {
+    cleanedName: (state) => state.data.name.trim(),
+
+    isValidName: (state): boolean => state.data.name.trim().length > 0 && !/^\s+$/.test(state.data.name),
+
     showBikePhotos(): File[] {
       return this.bikePhotos;
     },
