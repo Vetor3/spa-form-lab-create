@@ -21,11 +21,11 @@
           />
 
           <input
-          v-model="uploadStore.data.cep"
+          v-model="uploadStore.data.zipCode"
           type="text"
           placeholder="CEP"
           v-maska="'#####-###'"
-          @blur="uploadStore.cepFetch(uploadStore.data.cep)"
+          @blur="uploadStore.cepFetch(uploadStore.data.zipCode)"
           class="input-field"
           />
         </div>
@@ -103,7 +103,7 @@
       <button 
         class="submit-btn"
         :class="{ 'loading': uploadStore.isLoading }"
-        :disabled="uploadStore.isLoading || !uploadStore.data.name || !uploadStore.data.phone || !uploadStore.data.cep || !uploadStore.data.street || !uploadStore.data.neighborhood || !uploadStore.data.city || !uploadStore.data.state || !uploadStore.data.number"
+        :disabled="uploadStore.isLoading || !uploadStore.data.name || !uploadStore.data.phone || !uploadStore.data.zipCode || !uploadStore.data.street || !uploadStore.data.neighborhood || !uploadStore.data.city || !uploadStore.data.state || !uploadStore.data.number"
         @click="uploadStore.uploadData"
         >
         {{ uploadStore.isLoading ? 'Enviando...' : 'Enviar Pedido' }}
