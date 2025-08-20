@@ -11,7 +11,7 @@ type FormData = {
   fontNumberType: string;
   fontNameType: string;
 
-  cep: string;
+  zipCode: string;
   street: string;
   number: string;
   neighborhood: string;
@@ -31,10 +31,10 @@ export const useUploadStore = defineStore('upload', {
       phone: '',
       textSponsorship: '',
       textDescription: '',
-      fontNumberType: '',
-      fontNameType: '',
+      fontNumberType: '0',
+      fontNameType: '0',
 
-      cep: '',
+      zipCode: '',
       street: '',
       number: '',
       neighborhood: '',
@@ -67,8 +67,16 @@ export const useUploadStore = defineStore('upload', {
       this.data.phone = '';
       this.data.textSponsorship = '';
       this.data.textDescription = '';
-      this.data.fontNumberType = '';
-      this.data.fontNameType = '';
+      this.data.fontNumberType = '0';
+      this.data.fontNameType = '0';
+
+      this.data.zipCode = '';
+      this.data.street = '';
+      this.data.number = '';
+      this.data.neighborhood = '';
+      this.data.city = '';
+      this.data.complement = '';
+      this.data.state = '';
     },
 
     addFiles(category: FileCategory, files: File[]) {
