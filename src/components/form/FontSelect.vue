@@ -62,7 +62,7 @@ export default defineComponent({
     );
 
     const selectedValue = computed({
-      get: () => props.type === 'number' 
+      get: () => props.type === 'number'
         ? store.data.fontNumberType 
         : store.data.fontNameType,
       set: (value) => store.updateDataField(
@@ -71,7 +71,11 @@ export default defineComponent({
       )
     });
 
-    const currentValue = computed(() => selectedValue.value || 'Não selecionado');
+    const currentValue = computed(() => {
+      if (!selectedValue.value || selectedValue.value === '0') return 'Nenhuma Fonte selecionada';
+      
+      return selectedValue.value;
+    });
 
     const getImageUrl = (value: string) => 
       `/fonts/font-${config.value.imageType}-${value}.png`;
